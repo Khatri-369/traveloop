@@ -11,7 +11,8 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
   const navigate = useNavigate();
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const signIn = useAuthStore((state) => state.signIn);
 
   const validate = () => {
     const newErrors: { email?: string; password?: string } = {};
@@ -24,7 +25,7 @@ const LoginPage = () => {
     return newErrors;
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -32,12 +33,16 @@ const LoginPage = () => {
       return;
     }
     setErrors({});
+    setServerError(null);
     setIsLoading(true);
-    setTimeout(() => {
-      setAuth({ id: '1', email, name: 'Om Kumar' });
-      setIsLoading(false);
+    try {
+      await signIn(email, password);
       navigate('/dashboard');
-    }, 1500);
+    } catch (err: any) {
+      setServerError(err.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -101,6 +106,12 @@ const LoginPage = () => {
           </label>
           <Link to="#" style={{ fontSize: '0.875rem', fontWeight: 600, color: '#2563EB' }}>Forgot password?</Link>
         </div>
+
+        {serverError && (
+          <p style={{ padding: '12px 16px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', fontSize: '0.875rem', color: '#dc2626' }}>
+            {serverError}
+          </p>
+        )}
 
         <button disabled={isLoading} type="submit" className="btn-primary" style={{ width: '100%', padding: '16px', justifyContent: 'center' }}>
           {isLoading ? (

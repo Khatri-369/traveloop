@@ -10,7 +10,9 @@ const SignupPage = () => {
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const navigate = useNavigate();
-  const setAuth = useAuthStore((state) => state.setAuth);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const signUp = useAuthStore((state) => state.signUp);
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -21,7 +23,7 @@ const SignupPage = () => {
     return e;
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
@@ -29,12 +31,17 @@ const SignupPage = () => {
       return;
     }
     setErrors({});
+    setServerError(null);
+    setSuccessMsg(null);
     setIsLoading(true);
-    setTimeout(() => {
-      setAuth({ id: '1', email: form.email, name: form.name });
+    try {
+      await signUp(form.email, form.password, form.name);
+      setSuccessMsg('Account created! Please check your email to confirm your account, then log in.');
+    } catch (err: any) {
+      setServerError(err.message || 'Sign up failed. Please try again.');
+    } finally {
       setIsLoading(false);
-      navigate('/dashboard');
-    }, 1500);
+    }
   };
 
   const update = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -109,6 +116,17 @@ const SignupPage = () => {
           </div>
           {errors.confirmPassword && <p style={{ marginTop: '4px', fontSize: '0.75rem', color: '#ef4444' }}>{errors.confirmPassword}</p>}
         </div>
+
+        {serverError && (
+          <p style={{ padding: '12px 16px', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: '8px', fontSize: '0.875rem', color: '#dc2626', marginTop: '8px' }}>
+            {serverError}
+          </p>
+        )}
+        {successMsg && (
+          <p style={{ padding: '12px 16px', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '8px', fontSize: '0.875rem', color: '#16a34a', marginTop: '8px' }}>
+            {successMsg} <Link to="/login" style={{ fontWeight: 600, color: '#15803d' }}>Go to Login →</Link>
+          </p>
+        )}
 
         <button disabled={isLoading} type="submit" className="btn-primary" style={{ width: '100%', padding: '16px', marginTop: '8px', justifyContent: 'center' }}>
           {isLoading ? (
