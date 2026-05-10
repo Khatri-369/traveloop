@@ -1,162 +1,249 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Plane, Globe, Compass, ShieldCheck, ArrowRight, Star } from 'lucide-react';
+import { Plane, Globe, Compass, ShieldCheck, ArrowRight, Star, MapPin, Zap, Heart } from 'lucide-react';
 
-const LandingPage = () => {
-  return (
-    <div className="min-h-screen bg-background overflow-hidden">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-            <Plane className="text-white w-6 h-6" />
+const HERO_IMG = 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=900';
+const DEST_IMGS = [
+  { src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=400', city: 'Maldives' },
+  { src: 'https://images.unsplash.com/photo-1533929736458-ca588d08c8be?auto=format&fit=crop&q=80&w=400', city: 'Santorini' },
+  { src: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&q=80&w=400', city: 'Tokyo' },
+];
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 30 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] },
+});
+
+const LandingPage = () => (
+  <div style={{ minHeight: '100vh', background: '#F1F5F9', overflowX: 'hidden' }}>
+
+    {/* ── Navbar ────────────────────────────────────────────── */}
+    <nav style={{
+      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+      padding: '16px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(20px)',
+      borderBottom: '1px solid rgba(79,70,229,0.08)',
+      boxShadow: '0 2px 20px rgba(0,0,0,0.06)',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ width: 40, height: 40, background: 'linear-gradient(135deg,#4F46E5,#6366F1)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(79,70,229,0.35)' }}>
+          <Plane style={{ color: 'white', width: 20, height: 20 }} />
+        </div>
+        <span style={{ fontSize: '1.25rem', fontWeight: 800, fontFamily: 'Poppins,sans-serif', background: 'linear-gradient(135deg,#4F46E5,#6366F1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Traveloop</span>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+        <Link to="/login" style={{ color: '#475569', fontWeight: 600, textDecoration: 'none', fontSize: '0.9rem' }}>Login</Link>
+        <Link to="/signup" className="btn-primary" style={{ padding: '10px 22px', fontSize: '0.875rem' }}>Get Started Free →</Link>
+      </div>
+    </nav>
+
+    {/* ── Hero ──────────────────────────────────────────────── */}
+    <section style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #1E1B4B 0%, #312E81 35%, #1E3A5F 70%, #0C4A6E 100%)',
+      paddingTop: 100, paddingBottom: 80,
+      position: 'relative', overflow: 'hidden',
+    }}>
+      {/* Animated background blobs */}
+      <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.25) 0%, transparent 70%)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', bottom: '-10%', left: '-5%', width: 500, height: 500, borderRadius: '50%', background: 'radial-gradient(circle, rgba(6,182,212,0.18) 0%, transparent 70%)', pointerEvents: 'none' }} />
+
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
+        {/* Left text */}
+        <motion.div {...fadeUp(0.1)}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '8px 18px', background: 'rgba(99,102,241,0.2)', borderRadius: 100, border: '1px solid rgba(99,102,241,0.3)', marginBottom: 28 }}>
+            <Star style={{ width: 14, height: 14, color: '#FCD34D', fill: '#FCD34D' }} />
+            <span style={{ color: '#A5B4FC', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.05em' }}>VOTED #1 TRAVEL PLANNER 2024</span>
           </div>
-          <span className="text-xl font-bold font-poppins">Traveloop</span>
-        </div>
-        <div className="flex items-center gap-6">
-          <Link to="/login" className="text-slate-600 font-medium hover:text-primary transition-colors">Login</Link>
-          <Link to="/signup" className="btn-primary py-2 px-6">Sign Up</Link>
-        </div>
-      </nav>
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 px-6">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full mb-6">
-              <Star className="w-4 h-4 fill-current" />
-              <span className="text-sm font-semibold">Voted #1 Travel Planner 2024</span>
+          <h1 style={{ fontSize: '4rem', fontWeight: 800, lineHeight: 1.1, marginBottom: 24, color: 'white', fontFamily: 'Poppins,sans-serif' }}>
+            Plan Smarter.<br />
+            <span style={{ background: 'linear-gradient(135deg,#818CF8,#38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Travel Better.</span>
+          </h1>
+
+          <p style={{ fontSize: '1.15rem', color: '#94A3B8', marginBottom: 40, lineHeight: 1.7, maxWidth: 460 }}>
+            AI-powered travel planning that turns your dream trip into a perfectly curated itinerary — with budget tracking, packing lists, and local gems.
+          </p>
+
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 48 }}>
+            <Link to="/signup" className="btn-primary" style={{ padding: '15px 32px', fontSize: '1rem', display: 'flex', alignItems: 'center', gap: 8 }}>
+              Start Planning Free <ArrowRight style={{ width: 18, height: 18 }} />
+            </Link>
+            <Link to="/city-search" style={{ padding: '14px 28px', border: '2px solid rgba(255,255,255,0.2)', borderRadius: 16, color: 'white', textDecoration: 'none', fontWeight: 700, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: 8, transition: 'all 0.3s' }}>
+              Explore Destinations
+            </Link>
+          </div>
+
+          {/* Social proof */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{ display: 'flex' }}>
+              {[12,13,14,15].map(i => (
+                <div key={i} style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid rgba(255,255,255,0.3)', overflow: 'hidden', marginLeft: i === 12 ? 0 : -10, background: '#312E81' }}>
+                  <img src={`https://i.pravatar.cc/80?img=${i}`} alt="user" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                </div>
+              ))}
             </div>
-            <h1 className="text-6xl lg:text-7xl font-bold leading-tight mb-6">
-              Plan Smarter. <br />
-              <span className="text-primary">Travel Better.</span>
-            </h1>
-            <p className="text-xl text-slate-600 mb-8 max-w-lg leading-relaxed">
-              Experience AI-powered personalized travel planning. From itinerary building to budget tracking, we've got you covered.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link to="/signup" className="btn-primary flex items-center gap-2 group">
-                Start Planning Free
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link to="/city-search" className="btn-secondary">
-                Explore Destinations
-              </Link>
-            </div>
-            
-            <div className="mt-12 flex items-center gap-4">
-              <div className="flex -space-x-3">
-                {[1,2,3,4].map(i => (
-                  <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
-                    <img src={`https://i.pravatar.cc/100?img=${i+10}`} alt="user" />
-                  </div>
-                ))}
+            <div>
+              <div style={{ display: 'flex', marginBottom: 2 }}>
+                {[1,2,3,4,5].map(s => <Star key={s} style={{ width: 14, height: 14, color: '#FCD34D', fill: '#FCD34D' }} />)}
               </div>
-              <p className="text-sm text-slate-500 font-medium">
-                <span className="text-slate-900 font-bold">10k+</span> travelers already joined
-              </p>
+              <p style={{ color: '#94A3B8', fontSize: '0.8rem' }}><span style={{ color: 'white', fontWeight: 700 }}>10,000+</span> travelers already joined</p>
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative"
-          >
-            <div className="relative z-10 rounded-[40px] overflow-hidden shadow-2xl">
-              <img 
-                src="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=800" 
-                alt="Travel Destination"
-                className="w-full h-auto object-cover"
+        {/* Right image card */}
+        <motion.div {...fadeUp(0.3)} className="animate-float" style={{ position: 'relative' }}>
+          <div style={{ borderRadius: 32, overflow: 'hidden', boxShadow: '0 40px 80px rgba(0,0,0,0.5)', position: 'relative' }}>
+            <img
+              src={HERO_IMG}
+              alt="Beautiful travel destination"
+              style={{ width: '100%', height: 420, objectFit: 'cover' }}
+              onError={e => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=900'; }}
+            />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%)' }} />
+            <div style={{ position: 'absolute', bottom: 24, left: 24, right: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(12px)', borderRadius: 12, padding: '8px 14px' }}>
+                <MapPin style={{ width: 16, height: 16, color: '#FB7185' }} />
+                <span style={{ color: 'white', fontSize: '0.85rem', fontWeight: 600 }}>Lake Braies, Italy</span>
+              </div>
+              <div style={{ background: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(12px)', borderRadius: 12, padding: '8px 14px' }}>
+                <span style={{ color: '#FCD34D', fontSize: '0.85rem', fontWeight: 700 }}>★ 4.9</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Floating badge - Route */}
+          <div style={{ position: 'absolute', top: -20, right: -20, background: 'white', borderRadius: 20, padding: '14px 18px', boxShadow: '0 20px 40px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 40, height: 40, background: 'linear-gradient(135deg,#F59E0B,#FCD34D)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Compass style={{ width: 20, height: 20, color: 'white' }} />
+            </div>
+            <div>
+              <p style={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 600 }}>AI Route</p>
+              <p style={{ fontSize: '0.85rem', color: '#0F172A', fontWeight: 800 }}>Bali → Thailand</p>
+            </div>
+          </div>
+
+          {/* Floating badge - Countries */}
+          <div style={{ position: 'absolute', bottom: -20, left: -20, background: 'white', borderRadius: 20, padding: '14px 18px', boxShadow: '0 20px 40px rgba(0,0,0,0.15)', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 40, height: 40, background: 'linear-gradient(135deg,#06B6D4,#38BDF8)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Globe style={{ width: 20, height: 20, color: 'white' }} />
+            </div>
+            <div>
+              <p style={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 600 }}>Available in</p>
+              <p style={{ fontSize: '0.85rem', color: '#0F172A', fontWeight: 800 }}>150+ Countries</p>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+
+    {/* ── Destination Highlights ─────────────────────────────── */}
+    <section style={{ padding: '80px 32px', background: 'white' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 48 }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: 12, fontFamily: 'Poppins,sans-serif' }}>
+            <span style={{ background: 'linear-gradient(135deg,#4F46E5,#06B6D4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Popular Destinations</span>
+          </h2>
+          <p style={{ color: '#64748B', fontSize: '1.05rem', maxWidth: 500, margin: '0 auto' }}>Handpicked destinations loved by our community of global travellers</p>
+        </motion.div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 24 }}>
+          {DEST_IMGS.map(({ src, city }, i) => (
+            <motion.div key={city} {...fadeUp(i * 0.1)} style={{ borderRadius: 24, overflow: 'hidden', position: 'relative', cursor: 'pointer', boxShadow: '0 12px 32px rgba(0,0,0,0.12)' }}
+              whileHover={{ y: -6, scale: 1.01 }}>
+              <img
+                src={src}
+                alt={city}
+                style={{ width: '100%', height: 280, objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                onError={e => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=400'; }}
               />
-            </div>
-            {/* Glass Cards Overlay */}
-            <div className="absolute -top-10 -right-10 glass-card p-6 w-64 hidden lg:block animate-bounce-slow">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-accent-orange/20 text-accent-orange rounded-full flex items-center justify-center">
-                  <Compass className="w-6 h-6" />
-                </div>
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 55%)' }} />
+              <div style={{ position: 'absolute', bottom: 20, left: 20, right: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div>
-                  <p className="text-xs text-slate-500">Route Discovery</p>
-                  <p className="text-sm font-bold">Bali - Thailand</p>
+                  <p style={{ color: 'white', fontWeight: 800, fontSize: '1.1rem', marginBottom: 2 }}>{city}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <MapPin style={{ width: 12, height: 12, color: '#FB7185' }} />
+                    <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.75rem' }}>Trending</span>
+                  </div>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.2)', backdropFilter: 'blur(8px)', borderRadius: 10, padding: '6px 12px' }}>
+                  <span style={{ color: 'white', fontWeight: 700, fontSize: '0.8rem' }}>Explore →</span>
                 </div>
               </div>
-              <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full w-2/3 bg-accent-orange"></div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {/* ── Features ──────────────────────────────────────────── */}
+    <section style={{ padding: '80px 32px', background: 'linear-gradient(135deg,#F1F5F9,#EEF2FF)' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        <motion.div {...fadeUp()} style={{ textAlign: 'center', marginBottom: 56 }}>
+          <h2 style={{ fontSize: '2.5rem', fontWeight: 800, marginBottom: 12, fontFamily: 'Poppins,sans-serif' }}>Everything You Need</h2>
+          <p style={{ color: '#64748B', maxWidth: 500, margin: '0 auto', fontSize: '1.05rem' }}>One platform, infinite adventures. We handle the logistics so you focus on memories.</p>
+        </motion.div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 28 }}>
+          {[
+            { icon: Zap, title: 'AI Itinerary Builder', desc: 'Custom routes generated based on your interests, pace, and budget. Ready in seconds.', gradient: 'linear-gradient(135deg,#4F46E5,#7C3AED)', light: 'rgba(79,70,229,0.08)' },
+            { icon: ShieldCheck, title: 'Travel Safety First', desc: 'Real-time alerts, embassy info, and travel insurance integration for full peace of mind.', gradient: 'linear-gradient(135deg,#0891B2,#06B6D4)', light: 'rgba(8,145,178,0.08)' },
+            { icon: Heart, title: 'Local Experiences', desc: 'Hidden gems and authentic activities curated by locals — not tourist traps.', gradient: 'linear-gradient(135deg,#E11D48,#FB7185)', light: 'rgba(225,29,72,0.08)' },
+          ].map(({ icon: Icon, title, desc, gradient, light }, i) => (
+            <motion.div key={title} {...fadeUp(i * 0.1)}
+              whileHover={{ y: -8 }}
+              style={{ background: 'white', borderRadius: 28, padding: 36, boxShadow: '0 8px 32px rgba(0,0,0,0.06)', cursor: 'default', border: '1px solid rgba(0,0,0,0.04)' }}>
+              <div style={{ width: 60, height: 60, background: gradient, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: `0 8px 20px ${light.replace('0.08', '0.4')}` }}>
+                <Icon style={{ width: 28, height: 28, color: 'white' }} />
               </div>
-            </div>
-            
-            <div className="absolute -bottom-10 -left-10 glass-card p-6 w-64 hidden lg:block animate-bounce-slow" style={{ animationDelay: '1s' }}>
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-10 h-10 bg-accent-sky/20 text-accent-sky rounded-full flex items-center justify-center">
-                  <Globe className="w-6 h-6" />
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500">Global Search</p>
-                  <p className="text-sm font-bold">150+ Countries</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+              <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 12, fontFamily: 'Poppins,sans-serif' }}>{title}</h3>
+              <p style={{ color: '#64748B', lineHeight: 1.7, fontSize: '0.95rem' }}>{desc}</p>
+            </motion.div>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
 
-      {/* Features Section */}
-      <section className="py-24 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Everything You Need to Explore</h2>
-            <p className="text-slate-500 max-w-2xl mx-auto">
-              Our all-in-one platform makes travel planning a breeze. Focus on the adventure, we'll handle the logistics.
-            </p>
-          </div>
+    {/* ── CTA Banner ────────────────────────────────────────── */}
+    <section style={{ padding: '80px 32px', background: 'linear-gradient(135deg,#1E1B4B,#312E81,#1E3A5F)' }}>
+      <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center' }}>
+        <motion.div {...fadeUp()}>
+          <h2 style={{ fontSize: '2.8rem', fontWeight: 800, color: 'white', marginBottom: 20, fontFamily: 'Poppins,sans-serif', lineHeight: 1.2 }}>
+            Your Next Adventure<br />
+            <span style={{ background: 'linear-gradient(135deg,#818CF8,#38BDF8)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Starts Here</span>
+          </h2>
+          <p style={{ color: '#94A3B8', fontSize: '1.1rem', marginBottom: 40, lineHeight: 1.7 }}>Join 10,000+ travellers planning smarter trips with Traveloop. Free forever, no credit card required.</p>
+          <Link to="/signup" className="btn-primary" style={{ padding: '16px 40px', fontSize: '1rem', display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+            Start Planning Free <ArrowRight style={{ width: 18, height: 18 }} />
+          </Link>
+        </motion.div>
+      </div>
+    </section>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { icon: Compass, title: 'AI Itinerary Builder', desc: 'Custom routes generated based on your interests and budget.', color: 'bg-primary' },
-              { icon: ShieldCheck, title: 'Travel Safety First', desc: 'Real-time alerts and insurance integration for peace of mind.', color: 'bg-accent' },
-              { icon: Globe, title: 'Local Experiences', desc: 'Hidden gems and authentic activities curated by locals.', color: 'bg-accent-sky' },
-            ].map((feature, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ y: -10 }}
-                className="p-8 glass-card border-none bg-slate-50 hover:bg-white transition-colors cursor-default"
-              >
-                <div className={`w-14 h-14 ${feature.color} rounded-2xl flex items-center justify-center mb-6 text-white shadow-lg`}>
-                  <feature.icon className="w-8 h-8" />
-                </div>
-                <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-slate-500 leading-relaxed">{feature.desc}</p>
-              </motion.div>
-            ))}
+    {/* ── Footer ────────────────────────────────────────────── */}
+    <footer style={{ padding: '40px 32px', background: '#0F172A', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 24 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{ width: 36, height: 36, background: 'linear-gradient(135deg,#4F46E5,#6366F1)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Plane style={{ color: 'white', width: 18, height: 18 }} />
           </div>
+          <span style={{ color: 'white', fontSize: '1.1rem', fontWeight: 800, fontFamily: 'Poppins,sans-serif' }}>Traveloop</span>
         </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-slate-100">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Plane className="text-white w-5 h-5" />
-            </div>
-            <span className="text-lg font-bold font-poppins">Traveloop</span>
-          </div>
-          <p className="text-slate-400 text-sm">© 2024 Traveloop Inc. All rights reserved.</p>
-          <div className="flex gap-8">
-            <a href="#" className="text-sm text-slate-500 hover:text-primary transition-colors">Privacy</a>
-            <a href="#" className="text-sm text-slate-500 hover:text-primary transition-colors">Terms</a>
-            <a href="#" className="text-sm text-slate-500 hover:text-primary transition-colors">Support</a>
-          </div>
+        <p style={{ color: '#475569', fontSize: '0.85rem' }}>© 2024 Traveloop Inc. All rights reserved.</p>
+        <div style={{ display: 'flex', gap: 28 }}>
+          {['Privacy', 'Terms', 'Support'].map(link => (
+            <a key={link} href="#" style={{ color: '#475569', fontSize: '0.85rem', textDecoration: 'none', transition: 'color 0.2s' }}
+              onMouseEnter={e => (e.target as HTMLElement).style.color = '#818CF8'}
+              onMouseLeave={e => (e.target as HTMLElement).style.color = '#475569'}>
+              {link}
+            </a>
+          ))}
         </div>
-      </footer>
-    </div>
-  );
-};
+      </div>
+    </footer>
+  </div>
+);
 
 export default LandingPage;
