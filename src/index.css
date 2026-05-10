@@ -29,6 +29,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  transition: background-color 0.3s ease;
+}
+
+html.dark body {
+  background-color: #0B1120;
 }
 
 h1, h2, h3, h4, h5, h6 {

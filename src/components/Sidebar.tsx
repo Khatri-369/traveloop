@@ -27,7 +27,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="hidden md:flex flex-col w-64 h-[calc(100vh-64px)] bg-white border-r border-slate-200 sticky top-16 transition-all duration-300">
+    <aside className="hidden md:flex flex-col w-64 h-[calc(100vh-64px)] bg-white/70 backdrop-blur-md border-r border-slate-200 sticky top-16 transition-all duration-300">
       <div className="flex-1 py-6 px-4 space-y-1">
         {menuItems.map((item) => {
           const isActive = location.pathname === item.path;
@@ -39,7 +39,7 @@ const Sidebar = () => {
                 "flex items-center justify-between px-4 py-3 rounded-2xl transition-all duration-200 group",
                 isActive 
                   ? "bg-primary/10 text-primary" 
-                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                  : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
               )}
             >
               <div className="flex items-center gap-3">
@@ -52,7 +52,7 @@ const Sidebar = () => {
         })}
       </div>
       
-      <div className="p-4 border-t border-slate-100">
+      <div className="p-4 border-t border-slate-200">
         <div className="bg-gradient-to-br from-primary to-accent-sky p-4 rounded-2xl text-white">
           <p className="text-xs font-medium opacity-80 uppercase tracking-wider mb-1">Upgrade to Pro</p>
           <p className="text-sm font-semibold mb-3">Get AI Travel Insights</p>
