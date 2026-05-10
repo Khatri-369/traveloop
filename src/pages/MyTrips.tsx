@@ -22,7 +22,7 @@ const MyTrips = () => {
       location: 'Paris, Rome, Barcelona',
       dates: 'Aug 15 - Aug 30',
       travelers: 2,
-      image: 'https://images.unsplash.com/photo-1493336058163-9588c606bb5a?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=800',
       status: 'upcoming' as const
     },
     {

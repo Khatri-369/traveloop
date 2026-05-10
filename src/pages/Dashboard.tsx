@@ -27,7 +27,7 @@ const Dashboard = () => {
       location: 'Paris, Rome, Barcelona',
       dates: 'Aug 15 - Aug 30',
       travelers: 2,
-      image: 'https://images.unsplash.com/photo-1493336058163-9588c606bb5a?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&q=80&w=800',
       status: 'upcoming' as const
     },
     {
@@ -112,12 +112,13 @@ const Dashboard = () => {
         {/* Travel Inspiration / Activity Section */}
         <div className="space-y-6">
           <h2 className="text-2xl font-bold">Inspiration</h2>
-          <div className="glass-card p-6 border-none bg-gradient-to-br from-slate-900 to-slate-800 text-white relative overflow-hidden group">
+          <div className="glass-card p-6 border-none bg-slate-900 text-white relative overflow-hidden group">
             <img 
               src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=600" 
-              className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:scale-110 transition-transform duration-500"
+              className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-500"
               alt="Inspiration"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-0"></div>
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className="w-5 h-5 text-accent-sky" />
